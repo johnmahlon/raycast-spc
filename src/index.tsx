@@ -1,10 +1,12 @@
 import { ActionPanel, Action, Grid, Form, Detail, List } from "@raycast/api";
+import { useState } from "react";
 
 type Outlook = {
   title: string;
   urlTail: string
   key: string
 }
+
 
 let baseUrl: string = "https://www.spc.noaa.gov/public/cwa/images/";
 
@@ -27,23 +29,23 @@ let outlooks: Array<Outlook> = [
 ];
 
 export default function Command() {
-  return (
-    <SpcOutlooks radar="OHX"/>
+  return(
+    <SpcOutlooks radar="OHX" />
   );
 }
 
 // TODO, make dynamic
-function SelectRadar() {
-  return (
-    <Form>
-      <Form.TextField
-        id="radarField"
-        title="Enter Radar"
-        placeholder="Enter Radar i.e. OHX"
-      />
-    </Form>
-  );
-}
+// function SelectRadar() {
+//   return (
+//     <Form>
+//       <Form.TextField
+//         id="radarField"
+//         title="Enter Radar"
+//         placeholder="Enter Radar i.e. OHX"
+//       />
+//     </Form>
+//   );
+// }
 
 export function SpcOutlooks(props: { radar: string }) {
   return (
@@ -74,4 +76,19 @@ export function SpcOutlooks(props: { radar: string }) {
 }
 
 
-
+// TODO add HRRR animation
+function HRRR() {
+  const [frame, setFrame] = useState(0);
+    var id = setInterval(() => {
+      setFrame((frame + 1) % 18)
+    }, 1000);
+  
+    let framNum = ("000" + frame).slice(-3);
+  
+    let markdown = `![](https://m2o.pivotalweather.com/maps/models/hrrr/2022071903/${framNum}/refcmp.us_ov.png)`
+    return (
+      <Detail
+      markdown={markdown}
+      />
+    )
+}
